@@ -11,6 +11,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\Source;
 use App\Models\Admin;
 use App\Models\Lead;
+use App\Models\Comment;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 class LeadController extends Controller
@@ -48,6 +49,7 @@ class LeadController extends Controller
         $lead->admin_id =$data['admin_id'];
         $lead->source_id=$data['source_id'];
         $lead->status = $data['status'];
+        $lead->comment = $data['comment'];
         $lead->save();
         Session::flash('success_message', 'Client has been saved successfully');
         return redirect()->back();
@@ -55,7 +57,7 @@ class LeadController extends Controller
 
 
     public function dataTable(){
-        $model = lead::orderBy('company_name', 'ASC')->get();
+        $model = lead::orderBy('name', 'ASC')->get();
         return DataTables::of($model)
             ->addColumn('action', function ($model){
                 return view ('admin.lead._actions', [
@@ -65,6 +67,12 @@ class LeadController extends Controller
 
                 ]);
             })
+            ->editColumn('name', function ($model){
+                return view('admin.lead._name', [
+                    'model' => $model,
+                ]);
+            })
+
             ->editColumn('created_at', function ($model){
                return $model->created_at->format('M, d Y h:i A');
             })
@@ -79,9 +87,9 @@ class LeadController extends Controller
         Session::put('admin_page', 'lead');
         $leads = Lead::findOrFail($id);
         $admins = Admin::orderBy('name', 'ASC')->get();
-        $source = Source::orderBy('name', 'ASC')->get();
+        $sources = Source::orderBy('name', 'ASC')->get();
         
-        return view ('admin.lead.edit', compact('leads', 'admins', 'source'));
+        return view ('admin.lead.edit', compact('leads', 'admins', 'sources'));
     }
 
     // Store lead
@@ -98,9 +106,10 @@ class LeadController extends Controller
         $lead->name = $data['name'];
         $lead->email = $data['email'];
         $lead->phone = $data['phone'];
-        $lead = $data['source_id'];
-        // $lead = $data['admin_id'];
-        $package->status = $data['status'];
+        $lead->admin_id =$data['admin_id'];
+        $lead->source_id=$data['source_id'];
+        $lead->status = $data['status'];
+        $lead->comment = $data['comment'];
         $lead->save();
         Session::flash('success_message', 'Client has been Updated successfully');
         return redirect()->back();
@@ -113,6 +122,34 @@ class LeadController extends Controller
         return redirect()->back()->with('success_message', 'Client Has Been Deleted Successfully');
     }
 
-    // Clients Details
+    // lead Details
+    public function leadDetail($id){
+        Session::put('admin_page', 'lead');
+        $leads = Lead::findOrFail($id);
+        $admins = Admin::orderBy('name', 'ASC')->get();
+        $sources = Source::orderBy('name', 'ASC')->get();
+        
+        return view ('admin.lead.detail', compact('leads', 'admins', 'sources'));
+    }
+
+    //store comment
+    public function storeComment(Request $request){
+        $data = $request->all();
+        $rules = [
+            'comment' => 'required',
+            
+        ];
+        $customMessages = [
+            'comment.required' => 'Please enter  Name',
+           
+        ];
+        $this->validate($request, $rules, $customMessages);
+        $comment = new Comment();
+        $comment->comment = $data['comment'];
+        $comment->save();
+        Session::flash('success_message', 'comment has been saved successfully');
+        return redirect()->back();
+    }
+
     
 }

@@ -23,6 +23,8 @@ class CreateLeadsTable extends Migration
             $table->foreign('source_id')->references('id')->on('sources')->onDelete('cascade');
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->longText('comment')->nullable(); 
+
             $table->timestamps();
         });
     }

@@ -25,11 +25,11 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('source.index') }}"><i class="la la-srver"></i> <span>Sources</span></a>
+                    <a href="{{ route('source.index') }}"><i class="la la-bullseye"></i> <span>Sources</span></a>
                 </li>
 
                 <li>
-                    <a href="{{ route('lead.index') }}"><i class="la la-srver"></i> <span>Leads</span></a>
+                    <a href="{{ route('lead.index') }}"><i class="la la-users"></i> <span>Leads</span></a>
                 </li>
 
             </ul>

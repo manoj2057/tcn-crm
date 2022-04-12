@@ -1,6 +1,6 @@
 @extends('admin.includes.admin_design')
 
-@section('title') All Clients @endsection
+@section('title') All Leads @endsection
 
 @section('content')
 
@@ -27,7 +27,32 @@
         @include('admin.includes._message')
 
 
-    
+    <!-- Leave Statistics -->
+    <div class="row">
+        <div class="col-md-2">
+            <div class="stats-info">
+                <h4>{{ \App\Models\Lead::count() }}</h4>
+                <span>Total Leads</span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="stats-info">
+                <h4></h4>
+                <span class="text-success">Converted Leads</span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="stats-info">
+                <h4></h4>
+                <span class="text-danger">Non Converted List</span>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Leave Statistics -->
+
 
         <div class="row">
             <div class="col-sm-12">
@@ -35,14 +60,15 @@
                     <div class="card-body">
 
                         <div class="table-responsive">
-                            <table class="table table-striped custom-table mb-0" id="lead_datatable">
+                            <table class="table table-striped custom-table mb-0" id="datatable">
                                 <thead>
                                 <tr>
-                                    <th style="width: 30px;">#</th>
-                                    <th>Source ID</th>
-                                    <th>Admin Id</th>
+                                    
+                                    <th>#</th>
+                                    <th> Name</th>
                                     <th>Email</th>
-                                    <th>Phone</th>
+                                    <th>Mobile</th>
+                                    <th>Status</th>
                                     <th>Date Added</th>
                                     <th>Action</th>
                                 </tr>
@@ -58,29 +84,22 @@
     </div>
     <!-- /Page Content -->
 
-
-
-
-
-
-
 @endsection
+
 
 @section('js')
 
     <script>
-        $('#lead_datatable').DataTable({
+        $('#datatable').DataTable({
             processing: true,
             serverSide: true,
             sorting: true,
             searchable : true,
             scrollX: false,
-            ajax: "{{ route('table.client') }}",
+            ajax: "{{ route('table.lead') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'source_id', name: 'source_id'},
-                {data: 'admin_id', name: 'admin_id'},
-                {data: 'name', name: 'name'}
+                {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
                 {data: 'phone', name: 'phone'},
                 {data: 'status', name: 'status'},

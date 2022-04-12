@@ -71,9 +71,11 @@ Route::post('/login', [\App\Http\Controllers\Admin\AdminLoginController::class, 
      Route::get('/lead/edit/{id}', [\App\Http\Controllers\Admin\LeadController::class, 'edit'])->name('lead.edit');
      Route::post('/lead/update/{id}', [\App\Http\Controllers\Admin\LeadController::class, 'update'])->name('lead.update');
      Route::get('/delete-lead/{id}', [\App\Http\Controllers\Admin\LeadController::class, 'destroy'])->name('lead.destroy');
+     Route::get('/lead/{id}', [\App\Http\Controllers\Admin\LeadController::class, 'leadDetail'])->name('leadDetail');
 
-       
-
+       //comments
+       Route::get('/comment/add', [\App\Http\Controllers\Admin\LeadController::class, 'add'])->name('comment.add');
+       Route::post('/comment/store', [\App\Http\Controllers\Admin\LeadController::class, 'storeComment'])->name('comment.store');
 
     });
     // Admin Logout

@@ -1,6 +1,6 @@
 @extends('admin.includes.admin_design')
 
-@section('title') Edit Lead - {{ $leads->name }} @endsection
+@section('title')  Lead Details- {{ $leads->name }} @endsection
 
 @section('content')
     <!-- Page Content -->
@@ -10,16 +10,13 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Leads</h3>
+                    <h3 class="page-title">{{ $leads->name }} Details</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('adminDashboard') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('lead.index') }}">Leads</a></li>
-                        <li class="breadcrumb-item active">Edit Lead</li>
+                        <li class="breadcrumb-item active">Lead Details</li>
                     </ul>
                 </div>
-                <div class="col-auto float-right ml-auto">
-                    <a href="{{ route('lead.index') }}" class="btn add-btn"><i class="fa fa-eye"></i> View All Leads</a>
-                </div>
+                
             </div>
         </div>
         <!-- /Page Header -->
@@ -47,7 +44,7 @@
                                            
                                         </div>
                                     </div>
-                                    
+                                   
 
                                     <div class="form-group">
                                         <label for="name">Name <span class="text-danger">*</span></label>
@@ -70,15 +67,13 @@
                                                 
                                                 <option value="New" {{ $leads->status == 'New' ? 'selected' : '' }}>New</option>
                                                 <option value="Contacted" {{ $leads->status == 'Contacted' ? 'selected' : '' }}>Contacted</option>
+                                                
                                                 <option value="Inprocess" {{ $leads->status == 'Inprocess' ? 'selected' : '' }}>In Process</option>
                                         
                                             </select>
                                             
                                         </div>
                                     </div>
-                                </div>
-                                
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="source">Assigned to</label>
                                         <div class="input-group">
@@ -90,13 +85,40 @@
                                             
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="comment">Comment </label>
-                                        <textarea class="form-control" name="comment" id="comment">{{ $leads->comment}}</textarea>
-                                    </div>
-
                                 </div>
+                                <div class="col-md-6">
+                                    @php
+                                    $comments = App\Models\Comment::latest()->get();
+                                    @endphp
+                                    <div class="container">
+                                        <div class="wrapper">
+                                          <h1>All Comments</h1>
+                                          <ul class="sessions">
+                                          <li>
+                                            <div class="time">{{$leads->created_at}}</div>
+                                            <div class="author">{{$admin->name}}</div>
+                                            <p>{{$leads->comment}}</p>
+                                          </li>
                                 
+                                          
+                                          
+                                        </ul>
+
+                                          <ul class="sessions">
+                                              @foreach($comments as $comment)
+                                            <li>
+                                              <div class="time">{{$comment->created_at}}</div>
+                                              <div class="author">{{$admin->name}}</div>
+                                              <p>{{$comment->comment}}</p>
+                                            </li>
+                                            @endforeach
+                                            
+                                            
+                                          </ul>
+                                        </div>
+                                      </div> 
+                                </div>
+                            
                             </div>
 
 

@@ -8,35 +8,3 @@
     </div>
 </td>
 
-@php $sources = \App\Models\Source::orderBy('name', 'ASC')->get(); @endphp
-
-@foreach($sources as $data)
-<!-- Edit Department Modal -->
-<div id="edit_source{{$data->id}}" class="modal custom-modal fade" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Sourcet</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-
-            <div class="modal-body">
-                <form method="post" action="{{ route('source.update', $data->id) }}">
-                    @csrf
-                    <div class="form-group">
-                        <label for="source_name">source Name <span class="text-danger">*</span></label>
-                        <input class="form-control" type="text" name="name" id="source_name" value="{{ $data->name }}" required>
-                    </div>
-
-                    <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Update</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
